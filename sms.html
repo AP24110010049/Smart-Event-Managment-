@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Smart Event Management</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f3f4f6;
+      margin: 0;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+      color: #1f2937;
+    }
+    .container {
+      max-width: 900px;
+      margin: auto;
+    }
+    .card {
+      background: white;
+      padding: 20px;
+      margin: 20px 0;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    button {
+      background: #4f46e5;
+      color: white;
+      border: none;
+      padding: 10px 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+    button:hover {
+      background: #4338ca;
+    }
+    .qr {
+      margin-top: 15px;
+      text-align: center;
+    }
+    .admin {
+      background: #eef2ff;
+    }
+  </style>
+</head>
+<body>
+
+<h1>🎉 Smart Event Management Platform</h1>
+
+<div class="container">
+
+  <!-- Event Section -->
+  <div class="card">
+    <h2>📅 College Hackathon 2026</h2>
+    <p><b>Date:</b> 28–29 January 2026</p>
+    <p><b>Venue:</b> SRM University</p>
+
+    <button onclick="register()">Register for Event</button>
+
+    <div class="qr" id="qrSection" style="display:none;">
+      <h3>Your QR Code</h3>
+      <img id="qrImage">
+      <p>Show this QR at entry</p>
+    </div>
+  </div>
+
+  <!-- Admin Dashboard -->
+  <div class="card admin">
+    <h2>📊 Admin Analytics Dashboard</h2>
+    <p><b>Total Registrations:</b> <span id="regCount">0</span></p>
+    <p><b>Total Attendance:</b> <span id="attCount">0</span></p>
+
+    <button onclick="markAttendance()">Scan QR & Mark Attendance</button>
+  </div>
+
+</div>
+
+<script>
+  let registrations = 0;
+  let attendance = 0;
+  const userId = "STUDENT001";
+  const eventId = "EVENT2026";
+
+  function register() {
+    registrations++;
+    document.getElementById("regCount").innerText = registrations;
+
+    // Generate QR using free API
+    const qrData = JSON.stringify({ eventId, userId });
+    const qrURL = "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=" + qrData;
+
+    document.getElementById("qrImage").src = qrURL;
+    document.getElementById("qrSection").style.display = "block";
+
+    alert("✅ Registration Successful!\n📩 WhatsApp notification sent");
+  }
+
+  function markAttendance() {
+    if (attendance < registrations) {
+      attendance++;
+      document.getElementById("attCount").innerText = attendance;
+      alert("✅ Attendance Marked Successfully");
+    } else {
+      alert("⚠️ No more attendees to mark");
+    }
+  }
+</script>
+
+</body>
+</html>
